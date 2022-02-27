@@ -17,7 +17,7 @@ int getRows(ifstream &input){
         }
     }
     input.clear();
-    return row; 
+    return row;
 }
 
 void loadCoefficient(ifstream &input, char temp,double&x,double&y,double&z, bool negative){
@@ -115,21 +115,36 @@ void getData(double *arr,ifstream &input, int rows){
         arr += 1;
         *arr = c;
         arr += 1;
-        for(int i = 0; i < 4; i++){
-            cout << fixed << setprecision(2) << *ptr << " ";
-            ptr += 1;
-        }
+        // for(int i = 0; i < 4; i++){
+        //     cout << fixed << setprecision(2) << *ptr << " ";
+        //     ptr += 1;
+        // }
         rows -= 1;
         cout << endl;
     }
-    
-    
+}
+
+void multiplyRow(double *arr, int row, double num){
+    double *ptr = arr;
+    row --;
+    ptr += (row*4);
+    for(int i = 0; i < 4; i++){
+        *ptr *= num;
+        ptr++;
+    }
+    ptr -= 4;
+    // cout << "new row" << endl;
+    ptr = arr;
 }
 
 int main()
 {
-    double* arr;
+    double *arr;
+    int command;
     string filename;
+    int multiplyIn1;
+    double multiplyIn2;
+    double *tempPtr;
     cout << "Please enter the input file name:" << endl;
     cin >> filename;
     // filename = "sample.txt";
@@ -143,6 +158,53 @@ int main()
     input.seekg(0L);
     getData(arr,input,rows);
     input.close();
+    tempPtr = arr;
+    for(int j = 0; j<rows; j++){
+        for(int i = 0; i < 4; i++){
+            cout << fixed << setprecision(2) << *tempPtr << " ";
+            tempPtr += 1;
+        }
+        cout << endl;
+    }
+    while (true){
+        cout << "Enter command" << endl;
+        cin >> command;
+        switch(command){
+            case 2:
+                cin >> multiplyIn1 >> multiplyIn2;
+                multiplyRow(arr,multiplyIn1,multiplyIn2);
+                break;
+            case 4:
+                for(int j = 0; j<rows; j++){
+                    for(int i = 0; i < 4; i++){
+                        cout << fixed << setprecision(2) << *arr << " ";
+                        arr += 1;
+                    }
+                    cout << endl;
+                }
+                return 0;
+        }
+    }
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
